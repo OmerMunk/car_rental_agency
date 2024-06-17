@@ -3,8 +3,9 @@ import bodyParser from 'body-parser'
 import cookieParser from "cookie-parser";
 import helmet from 'helmet'
 import cors from 'cors'
-import { carRouter } from './routes/carRouter'
 import errorHandlerMiddleware from './middlewares/errorHandler.middleware'
+import loggerMiddleware from "./middlewares/logger.middleware";
+import {indexRouter} from "./routes/index.router";
 
 
 const app: Application = express();
@@ -16,10 +17,13 @@ app.use(helmet())
 app.use(cookieParser())
 app.use(cors())
 
+// Custom middlewares
+app.use(loggerMiddleware)
+
 
 
 // Routes
-app.use('/api/v1/cars', carRouter)
+app.use(indexRouter);
 
 // Global error handler
 app.use(errorHandlerMiddleware)
