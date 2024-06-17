@@ -12,59 +12,65 @@ class Db {
 
     constructor(filename: string) {
         this.filename = path.join(dbPath, `${filename}.json`);
-        this.loadData();
     }
 
-    private loadData() {
-        try{
-            this.data = JSON.parse(fs.readFileSync(this.filename, 'utf-8'))
+    public async init() {
+        await this.loadData();
+    }
+
+    private async loadData() {
+        try {
+            const file = await fs.promises.readFile(this.filename, 'utf-8')
+            this.data = JSON.parse(file);
         } catch (error: any) {
             //todo: add log
             this.data = [];
         }
     }
 
-    private saveData() {
-        fs.writeFileSync(this.filename, JSON.stringify(this.data, null, 2));
+    public async saveData(): Promise<void> {
+        await fs.promises.writeFile(this.filename, JSON.stringify(this.data, null, 2));
     }
 
     public findMany(filter: Record<string, any> = {}) {
-        return this.data.filter((item)=>{
+        return this.data.filter((item) => {
             Object.keys(filter).every(key => item[key] === filter[key])
         })
     }
 
     public findOne(filter: Record<string, any> = {}) {
-        return this.data.find((item)=>{
+        return this.data.find((item) => {
             Object.keys(filter).every(key => item[key] === filter[key])
         })
     }
 
-    public insertOne(item: Record<string, any>) {
+    public async insertOne(item: Record<string, any>) {
         this.data.push(item);
-        this.saveData();
+        await this.saveData();
     }
 
-    public insertMany(items: Record<string, any>[]) {
+    public async insertMany(items: Record<string, any>[]) {
         this.data.push(...items);
-        this.saveData();
+        await this.saveData();
     }
 
-    public remove(id: string) {
-        this.data = this.data.filter((item)=> item.id !== id);
-        this.saveData();
+    public async remove(id: string) {
+        this.data = this.data.filter((item) => item.id !== id);
+        await this.saveData();
     }
 
-    public update(id: string, item: Record<string, any>): Record<string, any> {
-        const index = this.data.findIndex((item)=> item.id === id);
-        if(index === -1) {
+    public async update(id: string, item: Record<string, any>): Promise<Record<string, any>> {
+        const index = this.data.findIndex((item) => item.id === id);
+        if (index === -1) {
             throw new Error('Item not found');
         }
         this.data[index] = {...this.data[index], ...item};
-        this.saveData();
+        await this.saveData();
         return this.data[index];
     }
 }
 
 export const CarsDb: Db = new Db('cars');
+await CarsDb.init();
 export const ReservationsDb: Db = new Db('reservations');
+await ReservationsDb.init();

@@ -1,6 +1,7 @@
 import app from './app'
 import {createServer} from 'http';
 import { Server as HttpServer } from 'http';
+import {CarsDb, ReservationsDb} from "./db/connection";
 
 const PORT: number = parseInt(process.env.PORT as string, 10) || 8000;
 let server: HttpServer;
@@ -37,8 +38,12 @@ const startServer = () => {
 }
 
 //TODO: later implement disconnect from db and services
-const gracefullShutdown = () => {
+const gracefullShutdown = async() => {
     console.log('server is shutting down gracefully');
+    console.log('saving data to db');
+    await CarsDb.saveData();
+    ReservationsDb.saveData();
+    console.log(`data saved to db`)
     server.close(()=>{
         console.log('server is closed');
         process.exit(0);

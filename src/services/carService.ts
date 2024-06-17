@@ -51,8 +51,9 @@ export class CarService {
      * @description Add a car
      * @returns {void}
      */
-    public addCar(car: any): void {
-        CarsDb.insertOne(car);
+    public async addCar(car: any): Promise<boolean> {
+        await CarsDb.insertOne(car);
+        return true;
     }
 
     /**
@@ -79,8 +80,8 @@ export class CarService {
      * @description Updates a car
      * @returns {any} - updated car
      */
-    public updateCar(id: string, car: any) {
-        const updatedCar = CarsDb.update(id, car);
+    public async updateCar(id: string, car: any) {
+        const updatedCar = await CarsDb.update(id, car);
         return updatedCar;
     }
 }

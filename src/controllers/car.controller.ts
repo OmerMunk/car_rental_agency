@@ -28,11 +28,11 @@ export class CarController {
      * @param req {Request} - request object
      * @param res {Response} - response object
      */
-    public addCar(req: Request, res: Response) {
-        this.carService.addCar(req.body);
+    public async addCar(req: Request, res: Response) {
+        const success = await this.carService.addCar(req.body);
         res.status(201).json({
-            success: true,
-            message: 'Car added successfully'
+            success,
+            message: success ?'Car added successfully' : 'Failed to add car'
         })
     }
 
