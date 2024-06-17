@@ -71,6 +71,6 @@ class Db {
 }
 
 export const CarsDb: Db = new Db('cars');
-await CarsDb.init();
+CarsDb.init().then(() => console.log('CarsDb initialized'));
 export const ReservationsDb: Db = new Db('reservations');
-await ReservationsDb.init();
+ReservationsDb.init().then(() => console.log('ReservationsDb initialized'));
