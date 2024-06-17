@@ -1,7 +1,10 @@
 import app from './app'
 import {createServer} from 'http';
 import { Server as HttpServer } from 'http';
-import {CarsDb, ReservationsDb} from "./db/connection";
+import {CarsDb, connectToDb, ReservationsDb} from "./db/connection";
+import jwt from 'jsonwebtoken'
+import fs from 'fs'
+import path from "path";
 
 const PORT: number = parseInt(process.env.PORT as string, 10) || 8000;
 let server: HttpServer;
@@ -61,3 +64,10 @@ process.on('SIGTERM', gracefullShutdown);
 process.on('SIGINT', gracefullShutdown);
 
 startServer();
+const token = jwt.sign({
+    data: 'omer'
+},
+    fs.readFileSync(path.join(__dirname, '../__mock_keys__/dbPrivateKey.pem'), 'utf8'),
+    {algorithm: 'RS256'}
+    )
+connectToDb(token)

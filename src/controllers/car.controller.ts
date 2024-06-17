@@ -19,6 +19,7 @@ export class CarController {
      */
     constructor() {
         this.carService = CarService.getInstance();
+        this.getCars = this.getCars.bind(this);
     }
 
     /**

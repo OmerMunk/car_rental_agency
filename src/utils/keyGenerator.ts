@@ -2,7 +2,7 @@ import crypto from 'crypto';
 import fs from 'fs';
 import path from 'path';
 
-const generateKeyPair = () => {
+export const generateKeyPair = () => {
     const { publicKey, privateKey } = crypto.generateKeyPairSync('rsa', {
         modulusLength: 2048,
         publicKeyEncoding: {
@@ -25,5 +25,4 @@ const generateKeyPair = () => {
     fs.writeFileSync(path.join(keyDir, 'dbPrivateKey.pem'), privateKey);
 };
 
-generateKeyPair();
 console.log('Keys generated successfully!');

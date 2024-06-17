@@ -1,10 +1,16 @@
 import {ICar} from "../models/car.model";
 
 import {IReservation} from "../models/reservation.model";
+
+import crypto from "crypto";
+import jwt from "jsonwebtoken";
 import * as fs from 'fs';
 import * as path from 'path'
 
 const dbPath = path.join(__dirname, '../../db');
+
+export let CarsDb: Db;
+export let ReservationsDb: Db;
 
 class Db {
     private filename: string;
@@ -33,6 +39,7 @@ class Db {
     }
 
     public findMany(filter: Record<string, any> = {}) {
+        if (Object.keys(filter).length === 0) return this.data;
         return this.data.filter((item) => {
             Object.keys(filter).every(key => item[key] === filter[key])
         })
@@ -70,7 +77,22 @@ class Db {
     }
 }
 
-export const CarsDb: Db = new Db('cars');
-CarsDb.init().then(() => console.log('CarsDb initialized'));
-export const ReservationsDb: Db = new Db('reservations');
-ReservationsDb.init().then(() => console.log('ReservationsDb initialized'));
+const publicKey = fs.readFileSync(path.join(__dirname, '../../__mock_keys__/dbPublicKey.pem'), 'utf8');
+
+
+export const connectToDb = (token: string) => {
+    const decoded = jwt.verify(token, publicKey, {algorithms: ['RS256']});
+    console.log(`decoded: ${decoded}`);
+    if (!decoded) {
+        throw new Error('Invalid token');
+    } else {
+        CarsDb = new Db('cars');
+        CarsDb.init().then(() => console.log('CarsDb initialized'));
+        ReservationsDb = new Db('reservations');
+        ReservationsDb.init().then(() => console.log('ReservationsDb initialized'));
+    }
+}
+
+
+
+

@@ -5,9 +5,9 @@ import {CarController} from "../controllers/car.controller";
 
 export const carRouter = express.Router();
 
-const carController = new CarController();
+const carController: CarController = new CarController();
 
 
 carRouter.get('/', carController.getCars);
 
-carRouter.post('/', validateAddCar , carController.addCar)
+carRouter.post('/', validateAddCar , carController.addCar.bind(carController))
