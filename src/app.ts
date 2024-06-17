@@ -4,7 +4,7 @@ import cookieParser from "cookie-parser";
 import helmet from 'helmet'
 import cors from 'cors'
 import { carRouter } from './routes/carRouter'
-import { errorHandler } from './middlewares/errorHandler'
+import errorHandler from './middlewares/errorHandler'
 
 
 const app: Application = express();
@@ -22,10 +22,7 @@ app.use(cors())
 app.use('/api/v1/cars', carRouter)
 
 // Global error handler
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-    errorHandler(err, res)
-});
-
+app.use(errorHandler)
 
 // Catch all other routes and return a status of 404
 app.use((req: Request, res: Response)=>{
