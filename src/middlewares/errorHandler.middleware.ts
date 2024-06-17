@@ -8,7 +8,7 @@ import { ApiError } from '../errors/ApiError';
  * @param res {Response} - express Response object
  * @param next {NextFunction} - express nextFunction object
  */
-const errorHandler = (error: Error | ApiError, req: Request, res: Response, next: NextFunction) => {
+const errorHandlerMiddleware = (error: Error | ApiError, req: Request, res: Response, next: NextFunction) => {
     if (error instanceof ApiError) {
         res.status(error.statusCode).json({
             status: error.status,
@@ -23,4 +23,4 @@ const errorHandler = (error: Error | ApiError, req: Request, res: Response, next
     }
 };
 
-export default errorHandler;
+export default errorHandlerMiddleware;
