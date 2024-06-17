@@ -1,3 +1,5 @@
+import {CarsDb} from "../db/connection";
+
 /**
  * This is a singleton service that manages the cars
  * @class
@@ -12,20 +14,13 @@ export class CarService {
      */
     private static instance: CarService;
 
-    //todo: create a type / interface
-    /**
-     * @description Array of cars
-     * @private
-     */
-    private cars: any[];
 
     /**
      * Constructor
      * @private
      */
     private constructor() {
-        //todo: load from file
-        this.cars= []
+
     }
 
     /**
@@ -57,7 +52,7 @@ export class CarService {
      * @returns {void}
      */
     public addCar(car: any): void {
-        this.cars.push(car);
+        CarsDb.insertOne(car);
     }
 
     /**
@@ -70,6 +65,22 @@ export class CarService {
      * @returns {any[]} - array of cars
      */
     public getCars(): any[] {
-        return this.cars;
+        return CarsDb.findMany();
+    }
+
+    /**
+     * Update car
+     * @param id - car id
+     * @param car - car object
+     * @public
+     * @method
+     * @name updateCar
+     * @memberof CarService
+     * @description Updates a car
+     * @returns {any} - updated car
+     */
+    public updateCar(id: string, car: any) {
+        const updatedCar = CarsDb.update(id, car);
+        return updatedCar;
     }
 }

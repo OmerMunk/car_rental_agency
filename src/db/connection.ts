@@ -55,13 +55,14 @@ class Db {
         this.saveData();
     }
 
-    public update(id: string, item: Record<string, any>) {
+    public update(id: string, item: Record<string, any>): Record<string, any> {
         const index = this.data.findIndex((item)=> item.id === id);
         if(index === -1) {
             throw new Error('Item not found');
         }
         this.data[index] = {...this.data[index], ...item};
         this.saveData();
+        return this.data[index];
     }
 }
 
