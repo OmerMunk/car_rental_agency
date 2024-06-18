@@ -1,7 +1,7 @@
 import app from './app'
 import {createServer} from 'http';
 import { Server as HttpServer } from 'http';
-import {CarsDb, connectToDb, ReservationsDb} from "./db/connection";
+import {CarsDb, connectToDb, ReservationsDb, AdminDb} from "./db/connection";
 import jwt from 'jsonwebtoken'
 import fs from 'fs'
 import path from "path";
@@ -45,7 +45,8 @@ const gracefullShutdown = async() => {
     console.log('server is shutting down gracefully');
     console.log('saving data to db');
     await CarsDb.saveData();
-    ReservationsDb.saveData();
+    await ReservationsDb.saveData();
+    await AdminDb.saveData();
     console.log(`data saved to db`)
     server.close(()=>{
         console.log('server is closed');

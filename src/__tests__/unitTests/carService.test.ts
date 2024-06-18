@@ -1,4 +1,4 @@
-import { CarService } from "../../services/carService";
+import { CarService } from "../../services/car.service";
 
 describe('CarService', () => {
     let carService: CarService;

@@ -1,5 +1,5 @@
 import {Request, Response} from "express";
-import {CarService} from "../services/carService";
+import {CarService} from "../services/car.service";
 
 /**
  * CarController

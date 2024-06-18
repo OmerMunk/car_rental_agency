@@ -11,6 +11,7 @@ const dbPath = path.join(__dirname, '../../db');
 
 export let CarsDb: Db;
 export let ReservationsDb: Db;
+export let AdminDb: Db;
 
 class Db {
     private filename: string;
@@ -46,8 +47,15 @@ class Db {
     }
 
     public findOne(filter: Record<string, any> = {}) {
+        console.log(`filter: ${JSON.stringify(filter)}`);
+        console.log(`data: ${JSON.stringify(this.data)}`);
         return this.data.find((item) => {
-            Object.keys(filter).every(key => item[key] === filter[key])
+            console.log(`item: ${JSON.stringify(item)}`);
+            return Object.keys(filter).every(key => {
+                console.log(`item[key] is: ${item[key]}`)
+                console.log(`item[key] is: ${filter[key]}`)
+                return item[key] === filter[key]
+            })
         })
     }
 
@@ -90,6 +98,8 @@ export const connectToDb = (token: string) => {
         CarsDb.init().then(() => console.log('CarsDb initialized'));
         ReservationsDb = new Db('reservations');
         ReservationsDb.init().then(() => console.log('ReservationsDb initialized'));
+        AdminDb = new Db('admin');
+        AdminDb.init().then(() => console.log('AdminDb initialized'));
     }
 }
 
