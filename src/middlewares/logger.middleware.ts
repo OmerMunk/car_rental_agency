@@ -1,4 +1,4 @@
-// src/middleware/logger.ts
+
 import { Request, Response, NextFunction } from 'express';
 
 const loggerMiddleware = (req: Request, _: Response, next: NextFunction) => {

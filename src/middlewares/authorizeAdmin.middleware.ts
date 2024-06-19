@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 
 export const authorizeAdmin = (req: Request, res: Response, next: NextFunction) => {
     console.log(`req.headers.authorization: ${req.headers.authorization}`);
-    const token = req.headers.authorization?.split(' ')[1]; // Assuming the token is sent as a Bearer token
+    const token = req.headers.authorization?.split(' ')[1];
 
     if (!token) {
         return res.status(401).json({ message: 'No token provided' });
