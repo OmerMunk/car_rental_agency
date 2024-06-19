@@ -52,8 +52,6 @@ class Db {
         return this.data.find((item) => {
             console.log(`item: ${JSON.stringify(item)}`);
             return Object.keys(filter).every(key => {
-                console.log(`item[key] is: ${item[key]}`)
-                console.log(`item[key] is: ${filter[key]}`)
                 return item[key] === filter[key]
             })
         })

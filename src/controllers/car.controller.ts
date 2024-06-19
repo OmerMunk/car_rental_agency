@@ -52,4 +52,21 @@ export class CarController {
             data: cars
         })
     }
+
+
+    /**
+     * Filter cars
+     * @public
+     * @description Filter cars
+     * @param req {Request} - request object
+     * @param res {Response} - response object
+     *
+     */
+    public filterCars(req: Request, res: Response) {
+        const cars = this.carService.getCars(req.query);
+        res.status(200).json({
+            success: true,
+            data: cars
+        })
+    }
 }

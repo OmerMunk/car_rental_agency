@@ -10,6 +10,7 @@ const carController: CarController = new CarController();
 
 
 carRouter.get('/', carController.getCars);
+carRouter.get('/filter', carController.filterCars);
 
 carRouter.post('/',
     authorizeAdmin ,

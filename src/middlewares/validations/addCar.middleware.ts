@@ -9,7 +9,8 @@ const carSchema = z.object({
     model: z.string(),
     year: z.number().min(1900).max(new Date().getFullYear()),
     color: z.string().optional(),
-    pricePerDay: z.number().positive()
+    pricePerDay: z.number().positive(),
+    size: z.enum(["min", "mid", "large"]),
 });
 
 

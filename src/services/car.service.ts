@@ -1,4 +1,5 @@
 import {CarsDb} from "../db/connection";
+import {ICar} from "../models/car.model";
 
 /**
  * This is a singleton service that manages the cars
@@ -51,7 +52,7 @@ export class CarService {
      * @description Add a car
      * @returns {void}
      */
-    public async addCar(car: any): Promise<boolean> {
+    public async addCar(car: ICar): Promise<boolean> {
         await CarsDb.insertOne(car);
         return true;
     }
@@ -65,8 +66,8 @@ export class CarService {
      * @description Get all cars
      * @returns {any[]} - array of cars
      */
-    public getCars(): any[] {
-        return CarsDb.findMany();
+    public getCars(filter: Record<string, any> = {}): any[] {
+        return CarsDb.findMany(filter);
     }
 
     /**
